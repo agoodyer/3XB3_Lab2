@@ -21,8 +21,13 @@ def DFS2(G, node1, node2):
     return []
 
 
+
+"""
+Performs Breadth First Search from node1 to all other reachable nodes
+Returns a predecessor dictionary of the reachable nodes
+"""
 def DFS3(G, node1):
-    hasCycle = False
+
     predecessor_dictionary = dict() 
     S = [node1]
     marked = {}
@@ -37,8 +42,5 @@ def DFS3(G, node1):
                 if not marked[node]:
                     S.append(node)
                     predecessor_dictionary[node] = current_node
-        else: 
-            hasCycle = True
-    print(hasCycle)
     return predecessor_dictionary
 

@@ -24,6 +24,12 @@ def generate_random_graph(n,e):
     return graph
 
 
+
+'''
+Determines if a graph G is connected by checking that 
+all nodes of G are reachable from a starting node.  
+More specifically, performs BFS and checks that the conjunction of the marked array is True. 
+'''
 def is_connected(G):
     node1 = 0
     Q = deque([node1])
@@ -38,6 +44,7 @@ def is_connected(G):
                 Q.append(node)
                 marked[node] = True
 
+    # if all nodes are marked, graph is connected
     return all(marked.values())
 
 
@@ -50,13 +57,13 @@ def has_cycle(G):
         marked[node] = False
 
 
+    # Repeat cycle checking process for each independent component of the graph 
     while(not all(marked.values())):
         for key in marked:
             if not marked[key]: 
                 S = [key]
                 break
 
-        # print(marked)
         while len(S) != 0: 
             current_node = S.pop()
             if not marked[current_node]:
@@ -71,42 +78,37 @@ def has_cycle(G):
     return cycle 
 
 
-def experiment_2(V, trials):
-    connected = [ 0 for i in range( (V*(V-1)//2)) ]
-
-    num_edges = [ i for i in range( (V*(V-1)//2)) ]
-
-    for i in range(trials):
-        
-        for j in range(len(num_edges)):
-
-            graph = generate_random_graph(V,j)
-            connected[j] += is_connected(graph)
-
-    plt.plot(num_edges,connected)
-  
-    plt.show()
-
 
 
 
 def experiment_1(V, trials):
-    cycle = [ 0 for i in range(V + V//4) ]
 
-    num_edges = [ i for i in range(V + V//4) ]
+    max = V + V//2
+    cycle = [ 0 for i in range(max) ]
+    num_edges = [ i for i in range(max) ]
 
     for i in range(trials):
-        
         for j in range(len(num_edges)):
-
             graph = generate_random_graph(V,j)
             cycle[j] += has_cycle(graph)
 
     plt.plot(num_edges,cycle)
-
-    plt.axvline(x = V-1, color = 'b', label = 'axvline - full height')
     plt.show()
 
+
+def experiment_2(V, trials):
+
+    max_edges = (V*(V-1)//2) 
+    connected = [ 0 for i in range(max_edges) ]
+    num_edges = [ i for i in range(max_edges) ]
+
+    for i in range(trials): 
+        for j in range(len(num_edges)):
+            graph = generate_random_graph(V,j)
+            connected[j] += is_connected(graph)
+
+    plt.plot(num_edges,connected)
+    plt.show()
 
 
 
@@ -125,7 +127,13 @@ graph.add_edge(4,6)
 
 
 
-print(BFS3(graph,1))
+print('DFS2', DFS2(graph,1,1))
+print('DFS3', DFS3(graph,1))
+
+print('BFS2', BFS2(graph,1,1))
+print('BFS3', BFS3(graph,1))
+
+
 
 
 # experiment_1(30,100)
