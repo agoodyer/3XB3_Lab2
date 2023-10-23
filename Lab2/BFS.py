@@ -9,14 +9,13 @@ If no such predecessor exists, there is no path.
 """
 def BFS2(G,node1,node2):
     predecessors = BFS3(G,node1)
-    path=[]
+    path=[node2]
     node = node2
     while(node != node1):
         if predecessors.get(node2) == None: return []
-        path.insert(0,node)
         node = predecessors.get(node)
+        path.insert(0,node)
 
-    path.insert(0,node)
     return path
 
 

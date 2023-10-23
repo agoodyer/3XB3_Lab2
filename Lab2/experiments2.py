@@ -48,7 +48,6 @@ def is_connected(G):
     return all(marked.values())
 
 
-
 def has_cycle(G):
     cycle = False
     unchecked_vertices = [i for i in range(G.number_of_nodes())]
@@ -91,8 +90,12 @@ def experiment_1(V, trials):
         for j in range(len(num_edges)):
             graph = generate_random_graph(V,j)
             cycle[j] += has_cycle(graph)
+    
 
-    plt.plot(num_edges,cycle)
+    plt.title("Edge Count vs Probability of Cycle ")
+    plt.xlabel('Edges')
+    plt.ylabel('P(Has Cycle)')
+    plt.plot(num_edges,np.divide(cycle,trials), "red")
     plt.show()
 
 
@@ -107,7 +110,10 @@ def experiment_2(V, trials):
             graph = generate_random_graph(V,j)
             connected[j] += is_connected(graph)
 
-    plt.plot(num_edges,connected)
+    plt.title("Edge Count vs Probability of Connected Graph ")
+    plt.xlabel('Edges')
+    plt.ylabel('P(connected)')
+    plt.plot(num_edges,np.divide(connected, trials), 'blue')
     plt.show()
 
 
@@ -126,15 +132,14 @@ graph.add_edge(4,5)
 graph.add_edge(4,6)
 
 
+# print('DFS2', DFS2(graph,1,1))
+# print('DFS3', DFS3(graph,1))
 
-print('DFS2', DFS2(graph,1,1))
-print('DFS3', DFS3(graph,1))
-
-print('BFS2', BFS2(graph,1,1))
-print('BFS3', BFS3(graph,1))
-
+# print('BFS2', BFS2(graph,1,1))
+# print('BFS3', BFS3(graph,1))
 
 
 
-# experiment_1(30,100)
-# experiment_2(20,100)
+
+# experiment_1(50,1000)
+# experiment_2(20,1000)
