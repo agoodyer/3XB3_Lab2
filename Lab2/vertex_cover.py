@@ -1,6 +1,6 @@
 from graph import * 
 from experiments2 import generate_random_graph
-
+import random
 
 
        
@@ -39,10 +39,30 @@ def approx1(G):
 
     return C
 
+def approx2(G):
+    
+    C = set()
+    vertex=[]
+
+    for i in range(G.number_of_nodes()):
+        if(G.adjacent_nodes(i) not in vertex):
+            vertex.append(G.adjacent_nodes(i))
+    
+
+    while len(C)< (len(vertex)-1):
+        if(is_vertex_cover(G, C)):
+            return C
+
+        value= random.randint(0, len(vertex)-1)
+        val2=value
+        v= vertex[val2]
+
+        C.update(v)
+
     
 
 g = generate_random_graph(5, 8)
-print(approx1(g))
+print(approx2(g))
 
 
 
