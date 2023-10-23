@@ -1,5 +1,7 @@
 from graph import * 
 from experiments2 import generate_random_graph
+import random
+
 import matplotlib.pyplot as plt
 import numpy as np 
 
@@ -35,6 +37,14 @@ def approx1(G):
         remove_incident(graph, max_vertex)
 
     return C
+
+    
+
+g = generate_random_graph(5, 8)
+print(approx1(g))
+
+
+
 
     
 graph = Graph(7)
