@@ -1,17 +1,14 @@
 from graph import * 
 from experiments2 import generate_random_graph
+import matplotlib.pyplot as plt
+import numpy as np 
 
-
-
-       
+     
 def copy(G):
     graph = Graph(G.number_of_nodes())
     for i in range(G.number_of_nodes()):
         graph.adj[i] = G.adj[i].copy()
-
     return graph 
-
-
 
 
 def remove_incident(G, v):
@@ -40,14 +37,6 @@ def approx1(G):
     return C
 
     
-
-g = generate_random_graph(5, 8)
-print(approx1(g))
-
-
-
-
-
 graph = Graph(7)
 graph.add_edge(1,2)
 graph.add_edge(1,3)
@@ -57,5 +46,32 @@ graph.add_edge(3,5)
 graph.add_edge(4,5)
 graph.add_edge(4,6)
 
+print(MVC(graph))
 
 
+def MVC_edges(V, trials):
+
+    max_edges = (V*(V-1)//2) 
+    MVC_size = [ 0 for i in range(max_edges) ]
+    approx1_size = [ 0 for i in range(max_edges) ]
+    num_edges = [ i for i in range(max_edges) ]
+
+    for i in range(trials): 
+        for j in range(len(num_edges)):
+            graph = generate_random_graph(V,j)
+            approx1_size[j] += len(approx1(graph))
+            MVC_size[j] += len(MVC(graph))
+           
+
+    plt.title("Edge Count vs MVC Size ")
+    plt.xlabel('Edges')
+    plt.ylabel('Size of MVC')
+    plt.plot(num_edges,np.divide(MVC_size, trials), 'blue')
+    plt.plot(num_edges,np.divide(approx1_size, trials), 'red')
+    
+    plt.show()
+
+
+
+
+MVC_edges(12, 10)
