@@ -132,11 +132,11 @@ graph.add_edge(4,5)
 graph.add_edge(4,6)
 
 
-# print('DFS2', DFS2(graph,1,1))
-# print('DFS3', DFS3(graph,1))
+print('DFS2', DFS2(graph,1,6))
+print('DFS3', DFS3(graph,1))
 
-# print('BFS2', BFS2(graph,1,1))
-# print('BFS3', BFS3(graph,1))
+print('BFS2', BFS2(graph,1,6))
+print('BFS3', BFS3(graph,1))
 
 
 

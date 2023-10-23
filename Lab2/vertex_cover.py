@@ -38,25 +38,24 @@ def approx1(G):
 
     return C
 
-    
+def approx2(G):
+    graph = copy(G)
+    C = set()
+    vertex=[]
 
-g = generate_random_graph(5, 8)
-print(approx1(g))
+    for i in range(graph.number_of_nodes()):
+        if(graph.adjacent_nodes(i) not in vertex):
+            vertex.append(graph.adjacent_nodes(i))
 
 
+    while len(C)< (len(vertex)-1):
+        if(is_vertex_cover(graph, C)):
+            return C
 
-
-    
-graph = Graph(7)
-graph.add_edge(1,2)
-graph.add_edge(1,3)
-graph.add_edge(2,4)
-graph.add_edge(3,4)
-graph.add_edge(3,5)
-graph.add_edge(4,5)
-graph.add_edge(4,6)
-
-print(MVC(graph))
+        value= random.randint(0, len(vertex)-1)
+        val2=value
+        v= vertex[val2]
+        C.update(v)
 
 
 def MVC_edges(V, trials):
@@ -84,4 +83,17 @@ def MVC_edges(V, trials):
 
 
 
-MVC_edges(12, 10)
+graph = Graph(7)
+graph.add_edge(1,2)
+graph.add_edge(1,3)
+graph.add_edge(2,4)
+graph.add_edge(3,4)
+graph.add_edge(3,5)
+graph.add_edge(4,5)
+graph.add_edge(4,6)
+
+print(MVC(graph))
+print(approx1(graph))
+print(approx2(graph))
+
+MVC_edges(8, 100)
