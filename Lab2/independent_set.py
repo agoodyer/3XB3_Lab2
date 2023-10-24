@@ -1,6 +1,10 @@
 from graph import * 
 from experiments import generate_random_graph
 
+
+"""
+Checks that no two vertices in the subset form an edge in G
+"""
 def is_independent_set(G, subset):
     for start in G.adj: 
         for end in G.adj[start]:
@@ -8,7 +12,10 @@ def is_independent_set(G, subset):
                 return False
     return True 
 
-
+"""
+Constructs the maximum independent set by iterating over the powerset of all nodes
+to find the largest subset that satisfies the criteria for an independent set 
+"""
 def MIS(G):
     nodes = [i for i in range(G.number_of_nodes())]
     subsets = power_set(nodes)
@@ -22,9 +29,12 @@ def MIS(G):
     return max_independent_set
 
 
-def independent_set_experiment():
+"""
+Tests the hypothesis that V-MIS is an MVC and vice versa. 
+"""
+def independent_set_experiment(V, E):
 
-    graph = generate_random_graph(20, 70)
+    graph = generate_random_graph(V, E)
     independent_set = MIS(graph)
     vertex_cover = MVC(graph)
     all_nodes = set([i for i in range(graph.number_of_nodes())])
@@ -48,4 +58,4 @@ def independent_set_experiment():
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 
-independent_set_experiment()
+

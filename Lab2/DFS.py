@@ -1,6 +1,8 @@
-#DEPTH FIRST SEARCH IMPLEMENTATIONS
-
-
+"""
+Finds valid path from node1 to node2 by appending each 
+successive node from the DFS traversal to a list. 
+If the destination node is not found, returns an empty list
+"""
 def DFS2(G, node1, node2):
     
     path = []

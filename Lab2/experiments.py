@@ -6,12 +6,12 @@ import  random
 import matplotlib.pyplot as plt
 import numpy as np 
 
-'''
+"""
 Generates a graph with n vertices and e  randomly selected edges. 
 Edges are selected by removing an edge from the list of possible edges e times. 
 An exception is thrown if the specified edge count is less than zero 
 or greater than the maximum possible edges for a graph of size n. 
-'''
+"""
 def generate_random_graph(n,e):
     graph = Graph(n)
     possible_edges = [(i,j) for i in range(n) for j in range(i+1,n)]
@@ -25,11 +25,11 @@ def generate_random_graph(n,e):
 
 
 
-'''
+"""
 Determines if a graph G is connected by checking that 
 all nodes of G are reachable from a starting node.  
 More specifically, performs BFS and checks that the conjunction of the marked array is True. 
-'''
+"""
 def is_connected(G):
     node1 = 0
     Q = deque([node1])
@@ -47,7 +47,11 @@ def is_connected(G):
     # if all nodes are marked, graph is connected
     return all(marked.values())
 
-
+"""
+Determines if a graph G has a cycle by performing DFS 
+on all independent components of the graph. 
+If the DFS process reaches the same node twice, it indicates the presence of a cycle. 
+"""
 def has_cycle(G):
     cycle = False
     unchecked_vertices = [i for i in range(G.number_of_nodes())]
@@ -79,7 +83,10 @@ def has_cycle(G):
 
 
 
-
+"""
+Plots the edge count vs the probability a graph has a cycle 
+averaged over a specified number of trials 
+"""
 def experiment_1(V, trials):
 
     max = V + V//2
@@ -135,7 +142,7 @@ graph.add_edge(4,6)
 # print('DFS2', DFS2(graph,1,6))
 # print('DFS3', DFS3(graph,1))
 
-# print('BFS2', BFS2(graph,1,6))
+print('BFS2', BFS2(graph,1,1))
 # print('BFS3', BFS3(graph,1))
 
 
