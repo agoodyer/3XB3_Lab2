@@ -1,5 +1,5 @@
 from graph import * 
-from experiments2 import generate_random_graph
+from experiments import generate_random_graph
 import random
 
 import matplotlib.pyplot as plt
@@ -14,8 +14,7 @@ def copy(G):
 
 
 def remove_incident(G, v):
-    v_adjacent = G.adjacent_nodes(v)
-    
+    v_adjacent = G.adjacent_nodes(v) 
     for vertex in v_adjacent:
         G.adj[vertex] = [ u for u in G.adj[vertex] if u != v] # remove all instances of v from other adjacency list
     G.adj[v].clear() # wipe the adjacency list of v
@@ -23,7 +22,6 @@ def remove_incident(G, v):
 
 
 def approx1(G):
-
     graph = copy(G)
     C = set()
 
@@ -47,8 +45,7 @@ def approx2(G):
         if(graph.adjacent_nodes(i) not in vertex):
             vertex.append(graph.adjacent_nodes(i))
 
-
-    while len(C)< (len(vertex)-1):
+    while len(C) < (len(vertex)-1):
         if(is_vertex_cover(graph, C)):
             return C
 
@@ -57,18 +54,21 @@ def approx2(G):
         v= vertex[val2]
         C.update(v)
 
+    return C
 
 def MVC_edges(V, trials):
 
     max_edges = (V*(V-1)//2) 
     MVC_size = [ 0 for i in range(max_edges) ]
-    approx1_size = [ 0 for i in range(max_edges) ]
+    approx1_size, approx2_size  = [ 0 for i in range(max_edges) ], [ 0 for i in range(max_edges) ]
+
     num_edges = [ i for i in range(max_edges) ]
 
     for i in range(trials): 
         for j in range(len(num_edges)):
             graph = generate_random_graph(V,j)
             approx1_size[j] += len(approx1(graph))
+            approx2_size[j] += len(approx2(graph))
             MVC_size[j] += len(MVC(graph))
            
 
@@ -77,8 +77,12 @@ def MVC_edges(V, trials):
     plt.ylabel('Size of MVC')
     plt.plot(num_edges,np.divide(MVC_size, trials), 'blue')
     plt.plot(num_edges,np.divide(approx1_size, trials), 'red')
+    plt.plot(num_edges,np.divide(approx2_size, trials), 'green')
     
     plt.show()
+
+
+
 
 
 
@@ -92,8 +96,9 @@ graph.add_edge(3,5)
 graph.add_edge(4,5)
 graph.add_edge(4,6)
 
-print(MVC(graph))
-print(approx1(graph))
-print(approx2(graph))
+# print(MVC(graph))
+# print(approx1(graph))
+# print(approx2(graph))
+# print(len(approx2(graph)))
 
-MVC_edges(8, 100)
+MVC_edges(8, 1000)
