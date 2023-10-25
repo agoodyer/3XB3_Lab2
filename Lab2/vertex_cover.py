@@ -56,6 +56,33 @@ def approx2(G):
 
     return C
 
+def approx3(G):
+    C = set()
+    number_of_edges = G.number_of_edges()-1
+    
+    while (not is_vertex_cover(G, C)):
+        adj_nodes = []
+        
+        while (len(adj_nodes) == 0):
+            u = random.randint(0, number_of_edges)
+            adj_nodes = G.adjacent_nodes(u)
+
+        if len(adj_nodes) == 1:
+            v = adj_nodes[0]
+        else:
+            v = adj_nodes[random.randint(0, len(adj_nodes)-1)]
+            
+        C.add(u)
+        C.add(v)
+
+        remove = random.randint(0,1)
+        if remove == 0:    
+            remove_incident(G, u)
+        else:
+            remove_incident(G, v)
+    
+    return C
+
 def MVC_edges(V, trials):
 
     max_edges = (V*(V-1)//2) 
@@ -97,8 +124,9 @@ graph.add_edge(4,5)
 graph.add_edge(4,6)
 
 # print(MVC(graph))
-# print(approx1(graph))
-# print(approx2(graph))
+print(approx1(graph))
+print(approx2(graph))
+print(approx3(graph))
 # print(len(approx2(graph)))
 
-MVC_edges(8, 1000)
+#MVC_edges(8, 1000)

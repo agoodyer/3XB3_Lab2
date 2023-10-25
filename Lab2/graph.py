@@ -24,6 +24,13 @@ class Graph:
 
     def number_of_nodes(self):
         return len(self.adj)
+    
+    def number_of_edges(self):
+        edge_count = 0
+        for i in range (0, self.number_of_nodes()):
+            edge_count += len(self.adj[i])
+        return edge_count / 2
+
 
 
 #Breadth First Search
