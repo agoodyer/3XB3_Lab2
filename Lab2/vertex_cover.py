@@ -104,11 +104,6 @@ def MVC_edges(V, trials):
 
 
 
-
-
-
-
-
 def generate_all_graphs(n):
 
     possible_edges = [(i,j) for i in range(n) for j in range(i+1,n)]
@@ -160,9 +155,9 @@ def worst_case(n):
 
 
 """
-This will not run for large n. 
-generating the powersets runs in exponential time and 
-is infeasible for a large input
+Graphs the worst case difference between the MVC and approx1
+for a graph of size n. Only works for small input sizes since generating
+all graph configurations is extremely intensive. 
 """
 def graph_worst_case(n):
 
@@ -178,7 +173,7 @@ def graph_worst_case(n):
             
            
 
-    plt.title("Edge Count vs Vertex Cover Size ")
+    plt.title("Graph Size vs Worst Case of approx1")
     plt.xlabel('Graph size')
     plt.ylabel('|MVC| - |approx1| ')
     plt.plot(graph_size,worst_difference, 'red')
@@ -211,6 +206,6 @@ graph.add_edge(4,6)
 
 # worst_case(5)
 
-graph_worst_case(6)
+graph_worst_case(7)
 
 

@@ -57,6 +57,3 @@ def independent_set_experiment(V, E):
 
     print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
-
-
-independent_set_experiment(1,0)

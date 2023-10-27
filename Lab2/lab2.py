@@ -60,6 +60,8 @@ from BFS import * ; from DFS import *
 #MVC_edges(8,1000)
 
 
+#graph_worst_case(6)
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Independent Set Experiments 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
