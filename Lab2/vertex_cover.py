@@ -58,28 +58,17 @@ def approx2(G):
 
 def approx3(G):
     C = set()
-    number_of_edges = G.number_of_edges()-1
-    
-    while (not is_vertex_cover(G, C)):
-        adj_nodes = []
-        
-        while (len(adj_nodes) == 0):
-            u = random.randint(0, number_of_edges)
-            adj_nodes = G.adjacent_nodes(u)
+    graph = copy(G)
 
-        if len(adj_nodes) == 1:
-            v = adj_nodes[0]
-        else:
-            v = adj_nodes[random.randint(0, len(adj_nodes)-1)]
-            
-        C.add(u)
-        C.add(v)
-
-        remove = random.randint(0,1)
-        if remove == 0:    
-            remove_incident(G, u)
-        else:
-            remove_incident(G, v)
+    while not is_vertex_cover(graph,C):
+        u = random.randint(0,graph.number_of_nodes()-1)
+        adj = graph.adjacent_nodes(u)
+        if len(adj) > 0:
+            v = adj[random.randint(0, len(adj)-1)]
+            remove_incident(graph,u)
+            remove_incident(graph,v)
+            C.add(u)
+            C.add(v)
     
     return C
 
@@ -87,7 +76,9 @@ def MVC_edges(V, trials):
 
     max_edges = (V*(V-1)//2) 
     MVC_size = [ 0 for i in range(max_edges) ]
-    approx1_size, approx2_size  = [ 0 for i in range(max_edges) ], [ 0 for i in range(max_edges) ]
+    approx1_size = [ 0 for i in range(max_edges) ]
+    approx2_size = [ 0 for i in range(max_edges) ]
+    approx3_size = [ 0 for i in range(max_edges) ]
 
     num_edges = [ i for i in range(max_edges) ]
 
@@ -96,21 +87,105 @@ def MVC_edges(V, trials):
             graph = generate_random_graph(V,j)
             approx1_size[j] += len(approx1(graph))
             approx2_size[j] += len(approx2(graph))
+            approx3_size[j] += len(approx3(graph))
             MVC_size[j] += len(MVC(graph))
            
 
-    plt.title("Edge Count vs MVC Size ")
+    plt.title("Edge Count vs Vertex Cover Size ")
     plt.xlabel('Edges')
-    plt.ylabel('Size of MVC')
-    plt.plot(num_edges,np.divide(MVC_size, trials), 'blue')
-    plt.plot(num_edges,np.divide(approx1_size, trials), 'red')
-    plt.plot(num_edges,np.divide(approx2_size, trials), 'green')
+    plt.ylabel('Size of VC')
+    plt.plot(num_edges,np.divide(MVC_size, trials), 'red')
+    plt.plot(num_edges,np.divide(approx1_size, trials), 'blue')
+    plt.plot(num_edges,np.divide(approx2_size, trials), 'orange')
+    plt.plot(num_edges,np.divide(approx3_size, trials), 'green')
+    plt.legend(['MVC', 'approx1', 'approx2', 'approx3'])
     
     plt.show()
 
 
 
 
+
+
+
+
+def generate_all_graphs(n):
+
+    possible_edges = [(i,j) for i in range(n) for j in range(i+1,n)]
+    all_graphs = []
+
+    pow = power_set(possible_edges)
+
+    for edge_set in pow: 
+        graph = Graph(n)
+        for edge in edge_set: 
+            graph.add_edge(edge[0], edge[1])
+        
+        all_graphs.append(graph)
+    
+    return all_graphs
+
+
+"""
+Generates all possible graphs of size n and then determines the size difference between the approx1 and the MVC
+
+"""
+def worst_case(n):
+    all_graphs = generate_all_graphs(n)
+
+    worst_approx = set()
+    worst_actual = set()
+    max_diff = 0 
+
+    for graph in all_graphs:
+        approximation = approx1(graph)
+        actual = MVC(graph) 
+
+        diff = len(approximation) - len(actual)
+
+        if diff > max_diff:
+            worst_approx =  approximation
+            worst_actual = actual
+            max_diff = diff
+
+    
+    #uncomment to see actual and worst case approximate MVCs
+
+    print("Worst case for n= ",n ," : ", max_diff)
+    # print('actual: ', worst_actual)
+    # print('approx: ', worst_approx)
+
+    return max_diff
+
+
+
+"""
+This will not run for large n. 
+generating the powersets runs in exponential time and 
+is infeasible for a large input
+"""
+def graph_worst_case(n):
+
+
+    worst_difference = [ 0 for i in range(n+1) ]
+
+
+    graph_size = [ i for i in range(n+1) ]
+
+    for i in range(n+1): 
+        worst_difference[i] = worst_case(i)
+
+            
+           
+
+    plt.title("Edge Count vs Vertex Cover Size ")
+    plt.xlabel('Graph size')
+    plt.ylabel('|MVC| - |approx1| ')
+    plt.plot(graph_size,worst_difference, 'red')
+
+    plt.legend(['Difference'])
+    
+    plt.show()   
 
 
 
@@ -124,9 +199,18 @@ graph.add_edge(4,5)
 graph.add_edge(4,6)
 
 # print(MVC(graph))
-print(approx1(graph))
-print(approx2(graph))
-print(approx3(graph))
+# print(approx1(graph))
+# print(approx2(graph))
+# print(approx3(graph))
+# print(test(graph))
 # print(len(approx2(graph)))
 
-#MVC_edges(8, 1000)
+# MVC_edges(8, 1000)
+
+# generate_all_graphs(3)
+
+# worst_case(5)
+
+graph_worst_case(6)
+
+
